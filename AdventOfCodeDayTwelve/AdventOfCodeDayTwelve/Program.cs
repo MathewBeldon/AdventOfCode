@@ -16,12 +16,17 @@ Console.WriteLine($"Part One: {partOneResult} increases");
 
 int PartOne(List<string[]> routes)
 {
-    CaveRoute tree = new CaveRoute("start");
+    Routes tree = new Routes("start");
+    for (int i = 0; i < routes.Count; i++)
+    {
+        for (int j = 0; j + i < routes.Count; j++)
+        {
+            AddRoute(tree, (routes[j + i][0], routes[j + i][1]));
+        }
+    }
     foreach (var route in routes)
     {
-        var currentCave = tree.PercolateFind(route[0]);
-        currentCave.AddChild(route[1]);
-        Console.WriteLine("");
+        AddRoute(tree, (route[0], route[1]));
         //if ()
     }
 
@@ -34,64 +39,67 @@ int PartTwo(int[] arr)
     return 0;
 }
 
-void MapRoute(ref CaveRoute caveRoute, string cave, List<string[]> routes)
+
+void AddRoute(Routes route, (string lhs, string rhs) connection)
 {
-    foreach (var route in routes.Where(x => x[0] == cave || x[1] == cave))
+    Add(connection.lhs, connection.rhs);
+    Add(connection.rhs, connection.lhs);
+
+    if (route.Children is not null)
     {
-        var alt = route[0] == cave ? route[1] : route[0];
-        if (caveRoute.AddChild(cave) is not null)
+        foreach(var child in route.Children)
         {
-            MapRoute(ref caveRoute, alt, routes);
+            AddRoute(child, connection);
+        }
+    }
+
+    void Add(string parent, string child)
+    {
+        if (parent == route.Cave)
+        {
+            if (!SearchUp(route, child))
+            {
+                if (!route.Children.Any(x => x.Cave == child))
+                {
+                    route.Children.Add(new Routes(child) { Parent = route, BigCave = child.ToLower() != child });
+                }
+            }
         }
     }
 }
 
-public class CaveRoute
+bool SearchUp(Routes route, string cave)
 {
-    public string Cave { get; private set; }
-    public bool BigCave { get; private set; }
-    public CaveRoute Parent { get; private set; }
-    public List<CaveRoute> Children { get; private set; }
+    while (route is not null)
+    {
+        if (route.Cave == "end")
+        {
+            return true;
+        }
+        if (route.Cave == cave)
+        {
+            if (!route.BigCave)
+            {
+                return true;
+            }
+        }
+        route = route.Parent;
+    }
+    return false;
+}
 
-    public CaveRoute(string cave)
+public class Routes
+{
+    public string Cave { get; set; }
+    public bool BigCave { get; set; }
+    public Routes Parent { get; set; }
+    public List<Routes> Children { get; set; }
+
+    public Routes(string cave)
     {
         Cave = cave;
-        Children = new List<CaveRoute>();
-    }
-
-    public CaveRoute AddChild(string cave)
-    {
-
-        CaveRoute parent = this;
-        var route = new CaveRoute(cave) { Parent = parent, BigCave = cave.ToLower() != cave };
-        if (route.BigCave)
-        {
-            Children.Add(route);
-            return route;
-        }
-        if (PercolateFind(cave) is null)
-        {
-            Children.Add(route);
-            return route;
-        }
-        return null;
-    }
-
-    public CaveRoute PercolateFind(string cave)
-    {
-        CaveRoute currentCave = this;
-        if (currentCave.Cave == cave)
-        {
-            return currentCave;
-        }
-        while (currentCave.Parent is not null)
-        {
-            if (currentCave.Cave == cave)
-            {
-                return currentCave;
-            }
-            currentCave = currentCave.Parent;
-        }
-        return null;
+        Children = new List<Routes>();
     }
 }
+
+
