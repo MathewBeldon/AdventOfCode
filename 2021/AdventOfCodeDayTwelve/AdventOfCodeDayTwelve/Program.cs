@@ -1,4 +1,4 @@
-﻿var routes = File.ReadLines(@"C:\src\AOC\AdventOfCodeDayTwelve\test.txt").Select(x => x.Split('-', StringSplitOptions.RemoveEmptyEntries)).ToList();
+﻿var routes = File.ReadLines(@"C:\source\AdventOfCode\2021\AdventOfCodeDayTwelve\test.txt").Select(x => x.Split('-', StringSplitOptions.RemoveEmptyEntries)).ToList();
 
 //for (int i = 0; i < routes.Count; i++)
 //{
@@ -8,13 +8,28 @@
 //    }
 //}
 
-int partOneResult = PartOne(routes);
+var partOneResult = PartOne(routes);
+int counter = 0;
+RecursivePrint(partOneResult);
+
+void RecursivePrint(Routes routes)
+{
+    Console.Write(routes.Cave);
+    foreach (var result in routes.Children)
+    {
+        RecursivePrint(result);
+    }
+    if (routes.Cave == "end") {
+        counter++;
+    }
+}
+
 //int partTwoResult = PartTwo(arr);
 
 Console.WriteLine($"Part One: {partOneResult} increases");
 //Console.WriteLine($"Part Two: {partTwoResult} increases");
 
-int PartOne(List<string[]> routes)
+Routes PartOne(List<string[]> routes)
 {
     Routes tree = new Routes("start");
     for (int i = 0; i < routes.Count; i++)
@@ -30,7 +45,7 @@ int PartOne(List<string[]> routes)
         //if ()
     }
 
-    return 0;
+    return tree;
 }
 
 int PartTwo(int[] arr)
