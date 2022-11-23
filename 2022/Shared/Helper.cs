@@ -11,9 +11,14 @@ namespace Shared
         {            
             if (test)
             {
-                return File.ReadLines(@$"TestInput/Day_{day}.txt").Select(x => T.Parse(x, provider)).ToArray();
+                return File.ReadLines(@$"TestInput/Day_{day}.txt")
+                    .Select(ln => T.Parse(ln, provider))
+                    .ToArray();
             }
-            return File.ReadLines(@$"Input/Day_{day}.txt").Select(x => T.Parse(x, provider)).ToArray();
+
+            return File.ReadLines(@$"Input/Day_{day}.txt")
+                .Select(ln => T.Parse(ln, provider))
+                .ToArray();
         }
 
         public static T[][] SplitParseToArray(
@@ -24,9 +29,61 @@ namespace Shared
         {
             if (test)
             {
-                return File.ReadLines(@$"TestInput/Day_{day}.txt").Select(x => x.Split(delimiter).Select(y => T.Parse(y, provider)).ToArray()).ToArray();
+                return File.ReadLines(@$"TestInput/Day_{day}.txt")
+                    .Select(ln => ln.Split(delimiter)
+                        .Select(y => T.Parse(y, provider))
+                            .ToArray())
+                    .ToArray();
             }
-            return File.ReadLines(@$"Input/Day_{day}.txt").Select(x => x.Split(delimiter).Select(y => T.Parse(y, provider)).ToArray()).ToArray();
+
+            return File.ReadLines(@$"Input/Day_{day}.txt")
+                .Select(ln => ln.Split(delimiter)
+                    .Select(ln_split => T.Parse(ln_split, provider))
+                        .ToArray())
+                .ToArray();
+        }
+
+        public static T[] ParseRangeToArray(
+            int day,
+            int start,
+            int end,
+            bool test = false,
+            IFormatProvider? provider = null)
+        {
+            if (test)
+            {
+                return File.ReadLines(@$"TestInput/Day_{day}.txt")
+                    .Skip(start)
+                    .Take(Math.Abs(start - end))
+                    .Select(ln => T.Parse(ln, provider))
+                    .ToArray();
+            }
+
+            return File.ReadLines(@$"Input/Day_{day}.txt")
+                .Skip(start)
+                .Take(Math.Abs(start - end))
+                .Select(ln => T.Parse(ln, provider))
+                .ToArray();
+        }
+
+        public static string[] ParseRangeToStringArray(
+            int day,
+            int start,
+            int end,
+            bool test = false)
+        {
+            if (test)
+            {
+                return File.ReadLines(@$"TestInput/Day_{day}.txt")
+                    .Skip(start)
+                    .Take(Math.Abs(start - end))
+                    .ToArray();
+            }
+
+            return File.ReadLines(@$"Input/Day_{day}.txt")
+                .Skip(start)
+                .Take(Math.Abs(start - end))
+                .ToArray();
         }
     }
 }
