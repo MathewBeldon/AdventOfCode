@@ -65,6 +65,23 @@ namespace Shared
                 .Select(ln => T.Parse(ln, provider))
                 .ToArray();
         }
+    }
+
+    public class Helper
+    { 
+        public static string[] ParseToStringArray(
+            int day,
+            bool test = false)
+        {
+            if (test)
+            {
+                return File.ReadLines(@$"TestInput/Day_{day}.txt")
+                    .ToArray();
+            }
+
+            return File.ReadLines(@$"Input/Day_{day}.txt")
+                .ToArray();
+        }
 
         public static string[] ParseRangeToStringArray(
             int day,
