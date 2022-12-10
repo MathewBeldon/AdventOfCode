@@ -12,12 +12,12 @@ namespace Shared
         {            
             if (test)
             {
-                return File.ReadLines(@$"TestInput/Day_{day}.txt")
+                return File.ReadLines(@$"TestInput/Day_{day:00}.txt")
                     .Select(ln => T.Parse(ln, provider))
                     .ToArray();
             }
 
-            return File.ReadLines(@$"Input/Day_{day}.txt")
+            return File.ReadLines(@$"Input/Day_{day:00}.txt")
                 .Select(ln => T.Parse(ln, provider))
                 .ToArray();
         }
@@ -30,14 +30,14 @@ namespace Shared
         {
             if (test)
             {
-                return File.ReadLines(@$"TestInput/Day_{day}.txt")
+                return File.ReadLines(@$"TestInput/Day_{day:00}.txt")
                     .Select(ln => ln.Split(delimiter)
                         .Select(y => T.Parse(y, provider))
                             .ToArray())
                     .ToArray();
             }
 
-            return File.ReadLines(@$"Input/Day_{day}.txt")
+            return File.ReadLines(@$"Input/Day_{day:00}.txt")
                 .Select(ln => ln.Split(delimiter)
                     .Select(ln_split => T.Parse(ln_split, provider))
                         .ToArray())
@@ -53,14 +53,14 @@ namespace Shared
         {
             if (test)
             {
-                return File.ReadLines(@$"TestInput/Day_{day}.txt")
+                return File.ReadLines(@$"TestInput/Day_{day:00}.txt")
                     .Skip(start)
                     .Take(Math.Abs(start - end))
                     .Select(ln => T.Parse(ln, provider))
                     .ToArray();
             }
 
-            return File.ReadLines(@$"Input/Day_{day}.txt")
+            return File.ReadLines(@$"Input/Day_{day:00}.txt")
                 .Skip(start)
                 .Take(Math.Abs(start - end))
                 .Select(ln => T.Parse(ln, provider))
@@ -76,11 +76,11 @@ namespace Shared
         {
             if (test)
             {
-                return File.ReadLines(@$"TestInput/Day_{day}.txt")
+                return File.ReadLines(@$"TestInput/Day_{day:00}.txt")
                     .ToArray();
             }
 
-            return File.ReadLines(@$"Input/Day_{day}.txt")
+            return File.ReadLines(@$"Input/Day_{day:00}.txt")
                 .ToArray();
         }
 
@@ -92,13 +92,13 @@ namespace Shared
         {
             if (test)
             {
-                return File.ReadLines(@$"TestInput/Day_{day}.txt")
+                return File.ReadLines(@$"TestInput/Day_{day:00}.txt")
                     .Skip(start)
                     .Take(Math.Abs(start - end))
                     .ToArray();
             }
 
-            return File.ReadLines(@$"Input/Day_{day}.txt")
+            return File.ReadLines(@$"Input/Day_{day:00}.txt")
                 .Skip(start)
                 .Take(Math.Abs(start - end))
                 .ToArray();
