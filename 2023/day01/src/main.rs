@@ -1,10 +1,10 @@
-
 use std::fs::File;
 use std::io::{self, BufRead};
 
 fn main() -> io::Result<()> {
     let file = File::open("data/real.txt")?;
     let reader = io::BufReader::new(file);
+
     let replacements = [
         ("one", "o1e"), 
         ("two", "t2o"),
