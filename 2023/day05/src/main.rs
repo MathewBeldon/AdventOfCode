@@ -2,7 +2,7 @@ use std::io;
 use std::fs;
 
 fn main() -> io::Result<()> {
-    let content = fs::read_to_string("data/test1.txt")?;
+    let content = fs::read_to_string("data/real.txt")?;
 
     let mut seeds:Vec<i64> = Vec::new();
     let mut maps:Vec<Vec<(i64, i64, i64)>> = Vec::new();
@@ -69,7 +69,7 @@ fn main() -> io::Result<()> {
     for seed in (0..seeds.len()).step_by(2) {
         current_mapping_range.push((seeds[seed], seeds[seed] + seeds[seed + 1]))
     }
-
+    
     for map in &maps {
         let mut new_seeds: Vec<(i64, i64)> = Vec::new();
         while current_mapping_range.len() > 0 {
@@ -78,15 +78,15 @@ fn main() -> io::Result<()> {
 
             for (destination, source, range) in map {
                 let overlap_start = i64::max(range_start, *source);
-                let overlap_end = i64::min(range_end, source + range);
+                let overlap_end = i64::min(range_end, source + range - 1);
 
                 if overlap_start < overlap_end {
                     new_seeds.push((overlap_start - source + destination, overlap_end - source + destination));
                     if overlap_start > range_start {
-                        current_mapping_range.push((range_start, overlap_start));
+                        current_mapping_range.push((range_start, overlap_start - 1));
                     }
                     if overlap_end < range_end {
-                        current_mapping_range.push((overlap_end, range_end));
+                        current_mapping_range.push((overlap_end + 1, range_end));
                     }
                     handled = true;
                     break;
@@ -94,6 +94,7 @@ fn main() -> io::Result<()> {
             }
             if !handled {
                 new_seeds.push((range_start, range_end));
+
             }
         }
         current_mapping_range = new_seeds;
